@@ -1,0 +1,24 @@
+@startuml
+!include <cloudinsight/kafka>
+!include <cloudinsight/cog>
+'skinparam queue octagon
+
+database services as servicesDb
+participant "Debezium Connector" as DebeziumConn
+queue services #LightBlue
+queue activemq #Pink
+participant "Kafka Mq Connector" as AMQConn
+queue "<$kafka>" as incoming.activemq[[{This is a tip on the field} field]] #LightBlue
+participant "<$cog>" as KSQL
+queue modify.op.msgs[[{Payload here?} field]] #LightBlue
+
+DebeziumConn->servicesDb
+DebeziumConn->services
+AMQConn->activemq
+AMQConn->"incoming.activemq": test
+hnote over "incoming.activemq" : payload here??
+incoming.activemq<-"KSQL": [[{This is a tip on the arrow} test]]
+services<-"KSQL"
+KSQL->modify.op.msgs
+
+@enduml
