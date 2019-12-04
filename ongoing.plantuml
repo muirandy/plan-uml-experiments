@@ -1,0 +1,7 @@
+@startuml
+queue First
+rectangle Second
+
+First->Second
+
+@enduml
