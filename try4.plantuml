@@ -1,10 +1,9 @@
 @startuml
-!define customSprites https://raw.githubusercontent.com/muirandy/plan-uml-experiments/master/sprites
+!define customSprites https://raw.githubusercontent.com/muirandy/plant-uml-experiments/master/sprites
 !include <cloudinsight/activemq>
 !include <cloudinsight/kafka>
 !include <cloudinsight/java>
 !include <cloudinsight/cassandra>
-'!include <sprites/ksql.puml>
 !include customSprites/ksql.puml
 !include customSprites/connect.puml
 
@@ -19,7 +18,7 @@ rectangle "<$ksql{scale=0.2}>\nCSAS_BANANA_LONG_NAME" as ksql #White
 rectangle "<$connect{scale=0.15}>" as connect #White
 queue "<$kafka>" as incoming.activemq[[{incoming.activemq} field]] #White
 'rectangle "<$java>\ndaemon" as daemon
-queue "<$kafka>" as incoming.op.msgs[[{incoming.op.msgs} field]] #White
+queue "STUFF\n<$kafka>\nLONG_TOPIC_NAME" as incoming.op.msgs[[{incoming.op.msgs} field]] #White
 database oracle as "<color:white>oracle</color>" #Red
 
 activemq <- connect
