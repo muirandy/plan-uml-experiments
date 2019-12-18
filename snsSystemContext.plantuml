@@ -1,0 +1,24 @@
+@startuml
+skinparam rectangleFontColor black
+skinparam queueFontColor black
+skinparam databaseFontColor black
+skinparam rectangleBackgroundColor lightyellow
+skinparam queueBackgroundColor lightyellow
+skinparam databaseBackgroundColor lightyellow
+skinparam rectangleBorderColor blue
+skinparam queueBorderColor blue
+skinparam databaseBorderColor blue
+
+rectangle "UKIS North" as UkisNorth
+rectangle "OpenReach"
+rectangle "Genband"
+rectangle "SPG"
+rectangle "UKIS South" as UkisSouth
+
+UkisNorth-down->UkisSouth
+OpenReach-right->UkisSouth
+UkisSouth-up->UkisNorth
+UkisSouth-->Genband
+UkisSouth-->SPG
+
+@enduml

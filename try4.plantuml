@@ -7,22 +7,28 @@
 !include customSprites/ksql.puml
 !include customSprites/connect.puml
 
+skinparam queue {
+    FontName Courier
+    FontSize 8
+    sequenceMessageAlign center
+}
 
 title Two-jo
 
 'skinparam monochrome true
 
-queue "<$activemq>" as activemq #Crimson
+'queue "<$activemq>" as activemq #Crimson
 'rectangle "<$java>\ndaemon" as daemon
-rectangle "<$ksql{scale=0.2}>\nCSAS_BANANA_LONG_NAME" as ksql #White
-rectangle "<$connect{scale=0.15}>" as connect #White
-queue "<$kafka>" as incoming.activemq[[{incoming.activemq} field]] #White
+'rectangle "<$ksql{scale=0.2}>\nCSAS_BANANA_LONG_NAME" as ksql #White
+'rectangle "<$connect{scale=0.15}>" as connect #White
+'queue "<$kafka>" as incoming.activemq[[{incoming.activemq} field]] #White
 'rectangle "<$java>\ndaemon" as daemon
-queue "STUFF\n<$kafka>\nLONG_TOPIC_NAME" as incoming.op.msgs[[{incoming.op.msgs} field]] #White
-database oracle as "<color:white>oracle</color>" #Red
+'skinparam classFontSize 10
+queue "<$kafka{scale=0.5}>LONG_TOPIC_NAME" as incoming.op.msgs[[{{name:"andy"}} field]] #White
+'database oracle as "<color:white>oracle</color>" #Red
 
-activemq <- connect
-connect -> incoming.activemq
-incoming.activemq <-down- ksql
-ksql -> incoming.op.msgs
+'activemq <- connect
+'connect -> incoming.activemq
+'incoming.activemq <-down- ksql
+'ksql -> incoming.op.msgs
 @enduml

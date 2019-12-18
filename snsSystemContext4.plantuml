@@ -1,0 +1,21 @@
+@startuml
+skinparam rectangleFontColor black
+skinparam queueFontColor black
+skinparam databaseFontColor black
+skinparam rectangleBackgroundColor lightyellow
+skinparam queueBackgroundColor lightyellow
+skinparam databaseBackgroundColor lightyellow
+skinparam rectangleBorderColor blue
+skinparam queueBorderColor blue
+skinparam databaseBorderColor blue
+
+title Services System Context
+
+rectangle Provisioning
+rectangle Outage
+rectangle Services
+
+Provisioning-->Services
+Outage->Services
+
+@enduml

@@ -1,0 +1,136 @@
+@startuml
+!define customSprites https://raw.githubusercontent.com/muirandy/plant-uml-experiments/master/sprites
+!include <cloudinsight/activemq>
+!include <cloudinsight/kafka>
+!include <cloudinsight/java>
+!include <cloudinsight/cassandra>
+!include customSprites/ksql.puml
+!include customSprites/connect.puml
+skinparam note {
+    FontName Courier
+    FontSize 8
+}
+
+rectangle "<$ksql{scale=0.2}>" as (CSAS_INCOMING_OP_MSGS_7)[[{CSAS_INCOMING_OP_MSGS_7} field]] #White
+queue "<$kafka{scale=0.5}>INCOMING_OP_MSGS" as INCOMING_OP_MSGS[[{1818296194 : {"ORDER_ID":"1818296194","TRACEY_ID":"d03d5a21-5760-4d34-9ea7-e64ea7a5f6a3","XML":"<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n<transaction receivedDate=\"2019-09-04T11:36:24\" operatorId=\"sky\" operatorTransactionId=\"op_trans_id_095025_228\" operatorIssuedDate=\"2011-06-01T09:51:12\"> \n  <instruction version=\"1\" type=\"PlaceOrder\"> \n    <order> \n      <type>modify</type> \n      <operatorOrderId>VoipModify_PUXGAN</operatorOrderId> \n      <orderId>1818296194</orderId> \n    </order> \n    <modifyFeaturesInstruction serviceId=\"-6115416762055563844\" operatorOrderId=\"VoipModify_PUXGAN\" operatorNotes=\"Test: successfullyModifyVoiceFeature\"> \n      <transactionHeader receivedDate=\"2019-09-04T11:36:24\" operatorId=\"sky\" operatorIssuedDate=\"2011-06-01T09:51:12\"/> \n      <features> \n        <feature code=\"CallWaiting\"/> \n        <feature code=\"ThreeWayCalling\"/> \n      </features> \n    </modifyFeaturesInstruction> \n  </instruction> \n</transaction> \n"}} field]] #White
+note top of [INCOMING_OP_MSGS]
+  1818296194 : {
+                                   "traceId": "d03d5a21-5760-4d34-9ea7-e64ea7a5f6a3"
+                                   "transaction": {
+                                       "instruction": {
+                                           "modifyFeaturesInstruction": {
+                                               "features": {"feature": [
+                                                   {"code": "CallWaiting"},
+                                                   {"code": "ThreeWayCalling"}
+                                               ]},
+                                               "operatorNotes": "Test: successfullyModifyVoiceFeature",
+                                               "transactionHeader": {
+                                                   "operatorIssuedDate": "2011-06-01T09:51:12",
+                                                   "receivedDate": "2019-09-04T11:36:24",
+                                                   "operatorId": "sky"
+                                               },
+                                               "operatorOrderId": "VoipModify_PUXGAN",
+                                               "serviceId": "-6115416762055563844"
+                                           },
+                                           "type": "PlaceOrder",
+                                           "version": "1",
+                                           "order": {
+                                               "orderId": "1818296194",
+                                               "operatorOrderId": "VoipModify_PUXGAN",
+                                               "type": "modify"
+                                           }
+                                       },
+                                       "operatorTransactionId": "op_trans_id_095025_228",
+                                       "operatorIssuedDate": "2011-06-01T09:51:12",
+                                       "receivedDate": "2019-09-04T11:36:24",
+                                       "operatorId": "sky"
+                                   }
+                               }
+end note
+rectangle "<$connect{scale=0.15}>" as connector_producer_activeMqSourceConnector_0[[{connector_producer_activeMqSourceConnector_0} field]] #White
+queue "<$kafka{scale=0.5}>incoming.activemq" as incoming.activemq[[{{"messageID":"ID:andymuir-3-65197-1576232641714-1:1:1:1:1"} : {"messageID":"ID:andymuir-3-65197-1576232641714-1:1:1:1:1","messageType":"text","timestamp":1576232641920,"deliveryMode":2,"correlationID":null,"replyTo":null,"destination":{"destinationType":"queue","name":"ColliderToCujo"},"redelivered":false,"type":null,"expiration":0,"priority":4,"jmsProperties":{"TRACEY_ID":{"propertyType":"string","boolean":null,"byte":null,"short":null,"integer":null,"long":null,"float":null,"double":null,"string":"d03d5a21-5760-4d34-9ea7-e64ea7a5f6a3"},"JMSXGroupID":{"propertyType":"string","boolean":null,"byte":null,"short":null,"integer":null,"long":null,"float":null,"double":null,"string":"1818296194"},"JMSXGroupSeq":{"propertyType":"integer","boolean":null,"byte":null,"short":null,"integer":0,"long":null,"float":null,"double":null,"string":null}},"bytes":null,"map":null,"text":"<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n<transaction receivedDate=\"2019-09-04T11:36:24\" operatorId=\"sky\" operatorTransactionId=\"op_trans_id_095025_228\" operatorIssuedDate=\"2011-06-01T09:51:12\"> \n  <instruction version=\"1\" type=\"PlaceOrder\"> \n    <order> \n      <type>modify</type> \n      <operatorOrderId>VoipModify_PUXGAN</operatorOrderId> \n      <orderId>1818296194</orderId> \n    </order> \n    <modifyFeaturesInstruction serviceId=\"-6115416762055563844\" operatorOrderId=\"VoipModify_PUXGAN\" operatorNotes=\"Test: successfullyModifyVoiceFeature\"> \n      <transactionHeader receivedDate=\"2019-09-04T11:36:24\" operatorId=\"sky\" operatorIssuedDate=\"2011-06-01T09:51:12\"/> \n      <features> \n        <feature code=\"CallWaiting\"/> \n        <feature code=\"ThreeWayCalling\"/> \n      </features> \n    </modifyFeaturesInstruction> \n  </instruction> \n</transaction> \n"}} field]] #White
+rectangle "<$ksql{scale=0.2}>" as (CSAS_REKEYED_RAW_VOIP_INSTRUCTIONS_1)[[{CSAS_REKEYED_RAW_VOIP_INSTRUCTIONS_1} field]] #White
+queue "<$kafka{scale=0.5}>REKEYED_RAW_VOIP_INSTRUCTIONS" as REKEYED_RAW_VOIP_INSTRUCTIONS[[{-6115416762055563844 : {"TRACE_ID":"d03d5a21-5760-4d34-9ea7-e64ea7a5f6a3","OPERATOR_ID":"sky","OPERATOR_ORDER_ID":"VoipModify_PUXGAN","ORDER_ID":"1818296194","SERVICE_ID":"-6115416762055563844","FEATURES":[{"code":"CallWaiting"},{"code":"ThreeWayCalling"}]}} field]] #White
+rectangle "<$ksql{scale=0.2}>" as (CSAS_STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID_5)[[{CSAS_STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID_5} field]] #White
+queue "<$kafka{scale=0.5}>STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID" as STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID[[{-6115416762055563844 : {"TRACE_ID":"d03d5a21-5760-4d34-9ea7-e64ea7a5f6a3","OPERATOR_ID":"sky","ORDER_ID":"1818296194","SERVICE_ID":"-6115416762055563844","OPERATOR_ORDER_ID":"VoipModify_PUXGAN","DIRECTORY_NUMBER":"011531839399","SWITCH_SERVICE_ID":4913999366615839145,"FEATURES":[{"code":"CallWaiting"},{"code":"ThreeWayCalling"}]}} field]] #White
+queue "<$kafka{scale=0.5}>STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_DN" as STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_DN[[{-6115416762055563844 : {"TRACE_ID":"d03d5a21-5760-4d34-9ea7-e64ea7a5f6a3","OPERATOR_ID":"sky","ORDER_ID":"1818296194","SERVICE_ID":"-6115416762055563844","OPERATOR_ORDER_ID":"VoipModify_PUXGAN","DIRECTORY_NUMBER":"011531839399","FEATURES":[{"code":"CallWaiting"},{"code":"ThreeWayCalling"}]}} field]] #White
+rectangle "<$ksql{scale=0.2}>" as (CSAS_AUDIT_8)[[{CSAS_AUDIT_8} field]] #White
+queue "<$kafka{scale=0.5}>modify.op.msgs" as modify.op.msgs[[{1818296194 : {\
+    "traceId": "d03d5a21-5760-4d34-9ea7-e64ea7a5f6a3",\
+    "transaction": {\
+        "instruction": {\
+            "modifyFeaturesInstruction": {\
+                "features": {"feature": [\
+                    {"code": "CallWaiting"},\
+                    {"code": "ThreeWayCalling"}\
+                ]},\
+                "operatorNotes": "Test: successfullyModifyVoiceFeature",\
+                "transactionHeader": {\
+                    "operatorIssuedDate": "2011-06-01T09:51:12",\
+                    "receivedDate": "2019-09-04T11:36:24",\
+                    "operatorId": "sky"\
+                },\
+                "operatorOrderId": "VoipModify_PUXGAN",\
+                "serviceId": "-6115416762055563844"\
+            },\
+            "type": "PlaceOrder",\
+            "version": "1",\
+            "order": {\
+                "orderId": "1818296194",\
+                "operatorOrderId": "VoipModify_PUXGAN",\
+                "type": "modify"\
+            }\
+        },\
+        "operatorTransactionId": "op_trans_id_095025_228",\
+        "operatorIssuedDate": "2011-06-01T09:51:12",\
+        "receivedDate": "2019-09-04T11:36:24",\
+        "operatorId": "sky"\
+    }\
+}} field]] #White
+queue "<$kafka{scale=0.5}>AUDIT" as AUDIT[[{1818296194 : {"TRACE_ID":"d03d5a21-5760-4d34-9ea7-e64ea7a5f6a3","ORDER_ID":"1818296194","TIMESTAMP":"2019-12-13 10:24:01.920","EVENT":"ConvertedFromXmlToJson","ASSOCIATION":""}} field]] #White
+queue "<$kafka{scale=0.5}>RAW_VOIP_INSTRUCTIONS" as RAW_VOIP_INSTRUCTIONS[[{1818296194 : {"TRACE_ID":"d03d5a21-5760-4d34-9ea7-e64ea7a5f6a3","OPERATOR_ID":"sky","OPERATOR_ORDER_ID":"VoipModify_PUXGAN","ORDER_ID":"1818296194","SERVICE_ID":"-6115416762055563844","FEATURES":[{"code":"CallWaiting"},{"code":"ThreeWayCalling"}]}} field]] #White
+rectangle "<$ksql{scale=0.2}>" as (CSAS_RAW_VOIP_INSTRUCTIONS_0)[[{CSAS_RAW_VOIP_INSTRUCTIONS_0} field]] #White
+rectangle activemqxmltojson #White
+rectangle "<$ksql{scale=0.2}>" as (CSAS_SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID_6)[[{CSAS_SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID_6} field]] #White
+queue "<$kafka{scale=0.5}>SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID" as SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID[[{1818296194 : {"TRACE_ID":"d03d5a21-5760-4d34-9ea7-e64ea7a5f6a3","OPERATOR_ID":"sky","ORDER_ID":"1818296194","SERVICE_ID":"-6115416762055563844","OPERATOR_ORDER_ID":"VoipModify_PUXGAN","DIRECTORY_NUMBER":"011531839399","SWITCH_SERVICE_ID":4913999366615839145,"FEATURES":[{"code":"CallWaiting"},{"code":"ThreeWayCalling"}]}} field]] #White
+rectangle "<$ksql{scale=0.2}>" as (InsertQuery_9)[[{InsertQuery_9} field]] #White
+rectangle "<$ksql{scale=0.2}>" as (CSAS_STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_DN_3)[[{CSAS_STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_DN_3} field]] #White
+rectangle "<$connect{scale=0.15}>" as connect_audit_es_sink[[{connect_audit_es_sink} field]] #White
+rectangle "<$connect{scale=0.15}>" as connect_AMQSinkConnector[[{connect_AMQSinkConnector} field]] #White
+queue "<$kafka{scale=0.5}>switch.modification.instructions" as switch.modification.instructions[[{1818296194 : <?xml version="1.0" encoding="UTF-8"?><switchServiceModificationInstruction switchServiceId="4913999366615839145" netstreamCorrelationId="1818296194"><features><CallWaiting active="true"/><ThreeWayCalling active="true"/></features></switchServiceModificationInstruction>} field]] #White
+rectangle modifyvoipjsontoxml #White
+queue "<$kafka{scale=0.5}>XML_SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID" as XML_SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID[[{1818296194 : <modifyVoiceFeatures><OPERATOR_ID>sky</OPERATOR_ID><OPERATOR_ORDER_ID>VoipModify_PUXGAN</OPERATOR_ORDER_ID><ORDER_ID>1818296194</ORDER_ID><DIRECTORY_NUMBER>011531839399</DIRECTORY_NUMBER><TRACE_ID>d03d5a21-5760-4d34-9ea7-e64ea7a5f6a3</TRACE_ID><SWITCH_SERVICE_ID>4913999366615839145</SWITCH_SERVICE_ID><SERVICE_ID>-6115416762055563844</SERVICE_ID><FEATURES><code>CallWaiting</code></FEATURES><FEATURES><code>ThreeWayCalling</code></FEATURES></modifyVoiceFeatures>} field]] #White
+rectangle "<$ksql{scale=0.2}>" as (InsertQuery_10)[[{InsertQuery_10} field]] #White
+rectangle knitwarexmltransformer #White
+
+CSAS_INCOMING_OP_MSGS_7->INCOMING_OP_MSGS
+connector_producer_activeMqSourceConnector_0->incoming.activemq
+incoming.activemq<-CSAS_INCOMING_OP_MSGS_7
+CSAS_REKEYED_RAW_VOIP_INSTRUCTIONS_1->REKEYED_RAW_VOIP_INSTRUCTIONS
+CSAS_STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID_5->STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID
+STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_DN<-CSAS_STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID_5
+modify.op.msgs<-CSAS_AUDIT_8
+CSAS_AUDIT_8->AUDIT
+RAW_VOIP_INSTRUCTIONS<-CSAS_REKEYED_RAW_VOIP_INSTRUCTIONS_1
+CSAS_RAW_VOIP_INSTRUCTIONS_0->RAW_VOIP_INSTRUCTIONS
+modify.op.msgs<-CSAS_RAW_VOIP_INSTRUCTIONS_0
+INCOMING_OP_MSGS<-activemqxmltojson
+activemqxmltojson->modify.op.msgs
+CSAS_SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID_6->SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID
+STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID<-CSAS_SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID_6
+InsertQuery_9->AUDIT
+RAW_VOIP_INSTRUCTIONS<-InsertQuery_9
+CSAS_STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_DN_3->STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_DN
+REKEYED_RAW_VOIP_INSTRUCTIONS<-CSAS_STREAM_MODIFY_VOIP_INSTRUCTIONS_WITH_DN_3
+modify.op.msgs<-connect_audit_es_sink
+AUDIT<-connect_audit_es_sink
+RAW_VOIP_INSTRUCTIONS<-connect_audit_es_sink
+SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID<-connect_audit_es_sink
+switch.modification.instructions<-connect_AMQSinkConnector
+SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID<-modifyvoipjsontoxml
+modifyvoipjsontoxml->XML_SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID
+InsertQuery_10->AUDIT
+SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID<-InsertQuery_10
+knitwarexmltransformer->switch.modification.instructions
+XML_SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID<-knitwarexmltransformer
+@enduml

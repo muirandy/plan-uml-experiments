@@ -1,0 +1,21 @@
+@startuml
+skinparam monochrome true
+
+rectangle "UKIS North" as UkisNorth
+rectangle "OpenReach"
+rectangle "Genband"
+rectangle "SPG"
+rectangle "UKIS South" {
+    rectangle "Outage"
+    rectangle "Provisioning"
+    rectangle "Services"
+}
+
+OpenReach->Outage
+UkisNorth-->Provisioning
+Outage->UkisNorth
+Outage-->Services
+Provisioning-->Services
+Provisioning--->Genband
+Provisioning--->SPG
+@enduml

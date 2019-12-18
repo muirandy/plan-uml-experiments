@@ -1,0 +1,35 @@
+@startuml
+
+skinparam rectangleFontColor white
+skinparam queueFontColor white
+skinparam databaseFontColor white
+skinparam rectangleBackgroundColor darkgreen
+skinparam queueBackgroundColor darkgreen
+skinparam databaseBackgroundColor darkgreen
+skinparam rectangleBorderColor white
+skinparam queueBorderColor white
+skinparam databaseBorderColor white
+
+rectangle LLUStream
+rectangle Collider
+rectangle Cujo
+rectangle Rolo
+rectangle Repoman
+rectangle Knitware
+queue queue1
+queue queue2
+queue queue3
+database oracle
+
+LLUStream->queue1
+queue1<-Collider
+Collider->queue2
+queue2<-down-Cujo
+Repoman<-Cujo
+oracle<-Repoman
+Cujo-down->queue3
+queue3<-down-Knitware
+Cujo-right.>Rolo
+Rolo->Cujo
+
+@enduml

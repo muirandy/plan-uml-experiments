@@ -1,0 +1,28 @@
+@startuml
+skinparam rectangleFontColor black
+skinparam queueFontColor black
+skinparam databaseFontColor black
+skinparam rectangleBackgroundColor lightyellow
+skinparam queueBackgroundColor lightyellow
+skinparam databaseBackgroundColor lightyellow
+skinparam rectangleBorderColor blue
+skinparam queueBorderColor blue
+skinparam databaseBorderColor blue
+
+title Provisioning System Context
+
+rectangle "UKIS North" as UkisNorth
+'rectangle "OpenReach"
+rectangle "Genband"
+rectangle "SPG"
+rectangle "Provisioning" as Provisioning
+rectangle Services
+
+UkisNorth-down->Provisioning
+'OpenReach-right->Provisioning
+Provisioning-up->UkisNorth
+Provisioning-->Genband
+Provisioning-->SPG
+Provisioning->Services
+
+@enduml

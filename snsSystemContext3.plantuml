@@ -1,0 +1,23 @@
+@startuml
+skinparam rectangleFontColor black
+skinparam queueFontColor black
+skinparam databaseFontColor black
+skinparam rectangleBackgroundColor lightyellow
+skinparam queueBackgroundColor lightyellow
+skinparam databaseBackgroundColor lightyellow
+skinparam rectangleBorderColor blue
+skinparam queueBorderColor blue
+skinparam databaseBorderColor blue
+
+title Outage System Context
+
+rectangle "UKIS North" as UkisNorth
+rectangle "OpenReach"
+rectangle "Outage" as Outage
+rectangle Services
+
+Outage-up->UkisNorth
+OpenReach-right->Outage
+Outage-down->Services
+
+@enduml
